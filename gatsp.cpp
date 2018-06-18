@@ -6,7 +6,7 @@
 
 using namespace std;
 const int ileMiast = 5;
-const int populacja = 20;
+const int populacja = 10;
 const int mutrate = 0.01;
 
 int miasta[ileMiast][ileMiast]={{0,4,5,2,1}, {5,0,2,4,1}, {3,8,0,8,4},{2,7,4,0,6}, {4,5,6,2,0}};
@@ -147,7 +147,7 @@ void wdroga(struct element ar[], int populacja, int ileMiast){
 			if(j<ileMiast-1){
 			ar[i].waga[j]=miasta[((ar[i].DNA[j])-1)][((ar[i].DNA[j+1])-1)];
 			}else if(j==ileMiast-1){
-			ar[i].waga[j]=miasta[ar[i].DNA[j]][ar[i].DNA[0]];
+			ar[i].waga[j]=miasta[((ar[i].DNA[j])-1)][((ar[i].DNA[0])-1)];
 			//cout<<"test: "<<ar[i].DNA[0]<<" j: "<<j;
 			}
 		}		
@@ -176,7 +176,7 @@ void najlepszy(struct element arr[], int populacja, struct element everBest[], i
 		if(arr[i].fitness<j){
 			j=arr[i].fitness;
 		}
-		if(arr[i].fitness < everBest[0].fitness){
+		if(arr[i].fitness <= everBest[0].fitness){
 			everBest[0]=arr[i];
 			everBest[0].pok=ileGen;
 		}
