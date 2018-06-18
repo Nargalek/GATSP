@@ -16,9 +16,9 @@ int ileGen=0;
 
 struct element{
 	int DNA[ileMiast];
-	int waga[ileMiast-1];
-	double fitness=0;
-	int pok=0;
+	int waga[ileMiast];
+	double fitness;
+	int pok;
 };
 
 void inicjalizacja(int, int*);
@@ -52,21 +52,21 @@ int main(){
 	system("CLS");
 	ileGen++;
 	wdroga(pop, populacja, ileMiast);
-	fitness(pop,ileMiast-1, populacja);
+	fitness(pop,ileMiast, populacja);
 	bubblesort(pop, populacja);
 	for(int i=0;i<populacja;i++){
 		cout<<"\nfit: "<<pop[i].fitness;
 	//	cout<<"\nnfit: "<<pop[i].nFitness;
 	}
-	
-	nowaGeneracja(pop, populacja, ileMiast);
 	najlepszy(pop, populacja, everBest, ileGen);
+	nowaGeneracja(pop, populacja, ileMiast);
+	
 	cout<<"\n\nNajlepsze rozwiazanie: "<<"\nfitness:"<<everBest[0].fitness<<"\nKolejnosc miast: ";
 	for(int i=0;i<ileMiast;i++){
 		cout<<everBest[0].DNA[i]<<" ";
 	}
 	cout<<"\nWaga: ";
-	for(int i=0;i<ileMiast-1;i++){
+	for(int i=0;i<ileMiast;i++){
 		cout<<everBest[0].waga[i]<<" ";
 	}
 	cout<<"\nPokolenie: "<<everBest[0].pok;
@@ -143,15 +143,20 @@ void bubblesort(struct element ar[], int a){
 
 void wdroga(struct element ar[], int populacja, int ileMiast){
 		for(int i=0;i<populacja;i++){
-		for(int j=0;j<ileMiast-1;j++){
+		for(int j=0;j<ileMiast;j++){
+			if(j<ileMiast-1){
 			ar[i].waga[j]=miasta[((ar[i].DNA[j])-1)][((ar[i].DNA[j+1])-1)];
+			}else if(j==ileMiast-1){
+			ar[i].waga[j]=miasta[ar[i].DNA[j]][ar[i].DNA[0]];
+			//cout<<"test: "<<ar[i].DNA[0]<<" j: "<<j;
+			}
 		}		
 		
 	}
 }
 
 void fitness(struct element ar[], int ileMiast, int populacja){
-	double w=0.0;
+	double w;
 	for(int i=0; i<populacja;i++){
 		
 		for(int j=0;j<ileMiast;j++){
